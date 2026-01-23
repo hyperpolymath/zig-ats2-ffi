@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-or-later
+// SPDX-License-Identifier: PMLP-1.0-or-later
 // Zig FFI bridge to ATS2 HKDF implementation
 
 const std = @import("std");
