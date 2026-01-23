@@ -1,12 +1,32 @@
-= RSR template repo - see RSR_OUTLINE.adoc in root for general background and specification
+= Zig ↔ ATS2 FFI Bridge
+:toc:
+:toclevels: 3
 
-== This is your repo - don't forget to rename me!
+Bidirectional FFI bridge between Zig and ATS2 with zero C dependencies.
 
-== AI CLI standards
+== Overview
 
-- Include `ai-cli-crash-capture/` and `contractiles/` from this template in new repos.
-- Mirror 6SCM files into `.machine_readable/6scm/`.
-- Before any code generation, check `/var/mnt/eclipse/repos/proven` for the current Idris “unbreakable” library status.
-- If a project uses that Idris library, add an *Idris Inside* badge to the repo.
-- If new bindings are required, add them in `/var/mnt/eclipse/repos/proven` as `idris2-zig-<language>` during the work.
-- If new code suggests additional “unbreakable” Idris modules, add them under `/var/mnt/eclipse/repos/proven` and update binders across all supported languages.
+This library provides a complete FFI layer for calling ATS2 from Zig and vice versa, using WASI/System V ABI conventions. Demonstrates HKDF key derivation as a reference implementation.
+
+== Features
+
+* *Bidirectional FFI*: Zig calls ATS2, ATS2 calls Zig
+* *Zero C Dependencies*: Direct ABI mapping without C headers
+* *Memory Safe*: Linear types in ATS2, checked allocations in Zig
+* *WASM-Ready*: Compiles to WebAssembly via WASI
+* *Proof Carrying*: ATS2's dependent types provide correctness proofs
+
+== Quick Start
+
+[source,bash]
+----
+# Compile ATS2 library
+patscc -DATS_MEMALLOC_LIBC -o libhkdf.a src/hkdf.dats
+
+# Build Zig WASM module
+zig build-lib -target wasm32-wasi -dynamic -o hkdf.wasm src/hkdf.zig libhkdf.a
+----
+
+== License
+
+AGPL-3.0-or-later
